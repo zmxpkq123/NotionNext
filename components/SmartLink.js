@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { siteConfig } from '@/lib/config'
+import { migrateLegacySiteUrl } from '@/lib/utils/migrateLegacySiteUrl'
 
 // 过滤 <a> 标签不能识别的 props
 const filterDOMProps = props => {
@@ -31,7 +32,10 @@ const filterLinkProps = props => {
   return rest
 }
 
-const SmartLink = ({ href, children, ...rest }) => {
+const SmartLink = ({ href: originalHref, children, ...rest }) => {
+  // Also handle menus restored from a cache created before the domain change.
+  const href = migrateLegacySiteUrl(originalHref)
+  const linkProps = href !== originalHref ? { ...rest, target: '_self' } : rest
   const LINK = siteConfig('LINK')
 
   // 获取 URL 字符串用于判断是否是外链
@@ -100,7 +104,7 @@ const SmartLink = ({ href, children, ...rest }) => {
         href={externalUrl}
         target='_blank'
         rel='noopener noreferrer'
-        {...filterDOMProps(rest)}>
+        {...filterDOMProps(linkProps)}>
         {children}
       </a>
     )
@@ -113,7 +117,7 @@ const SmartLink = ({ href, children, ...rest }) => {
       : mergePreservedQueryForObjectHref(href)
 
   return (
-    <Link href={mergedHref} {...filterLinkProps(rest)}>
+    <Link href={mergedHref} {...filterLinkProps(linkProps)}>
       {children}
     </Link>
   )
