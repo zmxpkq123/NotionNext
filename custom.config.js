@@ -16,8 +16,7 @@ module.exports = {
   APPEARANCE: process.env.NEXT_PUBLIC_APPEARANCE || 'auto',
   AUTHOR: process.env.NEXT_PUBLIC_AUTHOR || 'Zmxpkq',
   BIO: process.env.NEXT_PUBLIC_BIO || '远在远方的风 🎐',
-  LINK:
-    process.env.NEXT_PUBLIC_LINK || 'https://notion-next-puce-sigma.vercel.app',
+  LINK: process.env.NEXT_PUBLIC_LINK || 'https://zmxpkq.de',
   GREETING_WORDS:
     process.env.NEXT_PUBLIC_GREETING_WORDS ||
     '<br><br>大风从东吹到西<br>从北刮到南<br>无视黑夜和黎明',

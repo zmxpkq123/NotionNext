@@ -8,7 +8,7 @@
 - 站点主题：`hexo`
 - 外观模式：`auto`
 - 作者名、简介、Telegram、邮箱
-- 生产站点地址：`https://notion-next-puce-sigma.vercel.app`
+- 生产站点地址：`https://zmxpkq.de`
 - 首页欢迎语
 - 霞鹜文楷字体及原字体加载地址
 - 关闭自定义右键菜单
@@ -51,7 +51,7 @@ Vercel 的 Project Settings → Environment Variables 中。
 
 建议：
 
-- `NEXT_PUBLIC_LINK=https://notion-next-puce-sigma.vercel.app`
+- `NEXT_PUBLIC_LINK=https://zmxpkq.de`
 
 仅在使用 Algolia 时配置：
 
@@ -61,6 +61,20 @@ Vercel 的 Project Settings → Environment Variables 中。
 - `NEXT_PUBLIC_ALGOLIA_INDEX`
 
 `ALGOLIA_ADMIN_APP_KEY` 是服务端密钥，不要写入任何受 Git 管理的文件。
+
+## 旧域名链接兼容
+
+`crybaby.hoyue.fun` 已停用。菜单和 Notion 正文中保存的旧链接会在渲染时
+转换为站内路径，保留中文路径、查询参数和锚点。Notion Config 中残留的
+旧 `LINK` 也会转换为 `https://zmxpkq.de`。只匹配该旧主机名，其他外链不受影响。
+
+例如 `https://crybaby.hoyue.fun/category/%E6%9C%AD%E8%AE%B0` 会转换为
+`/category/%E6%9C%AD%E8%AE%B0`。今后新增菜单建议直接填写此类站内路径。
+
+这是代码层的兼容处理，不会修改 Notion 源数据库。将 `deploy/blog` 分支
+的修改发布到 Vercel 后生效；若部署仍使用旧的构建缓存，请重新构建并检查链接。
+
+验证链接转换：`node --test __tests__/lib/utils/migrateLegacySiteUrl.test.cjs`。
 
 ## 配置优先级
 

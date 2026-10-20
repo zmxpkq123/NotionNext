@@ -1,3 +1,5 @@
+import { migrateLegacySiteUrl } from '@/lib/utils/migrateLegacySiteUrl'
+
 const EXTERNAL_HTTP_LINK = /^https?:\/\//i
 
 const mergeRelValues = (...values) => {
@@ -45,14 +47,24 @@ export const shouldOpenNotionLinkInNewTab = (href, target, siteOrigin) => {
 }
 
 const NotionLink = ({ href, target, rel, ...props }) => {
-  const shouldOpenInNewTab = shouldOpenNotionLinkInNewTab(href, target)
-  const normalizedTarget = shouldOpenInNewTab ? '_blank' : target
+  const normalizedHref = migrateLegacySiteUrl(href)
+  const linkTarget = normalizedHref !== href ? '_self' : target
+  const shouldOpenInNewTab = shouldOpenNotionLinkInNewTab(
+    normalizedHref,
+    linkTarget
+  )
+  const normalizedTarget = shouldOpenInNewTab ? '_blank' : linkTarget
   const normalizedRel = shouldOpenInNewTab
     ? mergeRelValues(rel, 'noopener noreferrer')
     : rel
 
   return (
-    <a {...props} href={href} target={normalizedTarget} rel={normalizedRel} />
+    <a
+      {...props}
+      href={normalizedHref}
+      target={normalizedTarget}
+      rel={normalizedRel}
+    />
   )
 }
 

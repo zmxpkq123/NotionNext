@@ -17,6 +17,35 @@ jest.mock('@/lib/db/notion/getNotionAPI', () => ({
 }))
 
 describe('adjustPageProperties', () => {
+  it.each(['Menu', 'SubMenu', 'Page', 'Post'])(
+    'migrates retired blog URLs in %s entries without adding .html',
+    type => {
+      const page = {
+        id: 'legacy-link',
+        type,
+        slug: 'https://crybaby.hoyue.fun/category/%E6%9C%AD%E8%AE%B0?sort=new#posts'
+      }
+
+      adjustPageProperties(page, { PSEUDO_STATIC: true })
+
+      expect(page.href).toBe('/category/%E6%9C%AD%E8%AE%B0?sort=new#posts')
+      expect(page.target).toBe('_self')
+    }
+  )
+
+  it('keeps unrelated external menu links unchanged', () => {
+    const page = {
+      id: 'external-link',
+      type: 'Menu',
+      slug: 'https://example.com/category/notes'
+    }
+
+    adjustPageProperties(page, {})
+
+    expect(page.href).toBe(page.slug)
+    expect(page.target).toBe('_blank')
+  })
+
   it('uses category mapping for pages only when the page category is mapped', () => {
     const NOTION_CONFIG = {
       POST_URL_PREFIX: '%category%/%year%/%month%/%day%',

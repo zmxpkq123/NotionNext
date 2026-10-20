@@ -4,6 +4,23 @@ import NotionLink, {
 } from '@/components/NotionLink'
 
 describe('NotionLink', () => {
+  it('migrates retired blog links and opens them on the current site', () => {
+    render(
+      <NotionLink
+        href='https://crybaby.hoyue.fun/category/%E6%9C%AD%E8%AE%B0?sort=new#posts'
+        target='_blank'>
+        Notes
+      </NotionLink>
+    )
+
+    const link = screen.getByRole('link', { name: 'Notes' })
+    expect(link).toHaveAttribute(
+      'href',
+      '/category/%E6%9C%AD%E8%AE%B0?sort=new#posts'
+    )
+    expect(link).toHaveAttribute('target', '_self')
+  })
+
   it('opens external http links in a new tab', () => {
     render(<NotionLink href='https://example.com'>Example</NotionLink>)
 
