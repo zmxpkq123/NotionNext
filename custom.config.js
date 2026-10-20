@@ -17,6 +17,9 @@ module.exports = {
   AUTHOR: process.env.NEXT_PUBLIC_AUTHOR || 'Zmxpkq',
   BIO: process.env.NEXT_PUBLIC_BIO || '远在远方的风 🎐',
   LINK: process.env.NEXT_PUBLIC_LINK || 'https://zmxpkq.de',
+  SITE_LOGO: process.env.NEXT_PUBLIC_SITE_LOGO || '/brand/site-logo-v1.png',
+  SITE_COVER: process.env.NEXT_PUBLIC_SITE_COVER || '/brand/site-cover-v1.jpg',
+  BLOG_FAVICON: process.env.NEXT_PUBLIC_FAVICON || '/brand/site-logo-v1.png',
   GREETING_WORDS:
     process.env.NEXT_PUBLIC_GREETING_WORDS ||
     '<br><br>大风从东吹到西<br>从北刮到南<br>无视黑夜和黎明',

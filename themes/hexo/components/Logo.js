@@ -2,20 +2,32 @@ import { siteConfig } from '@/lib/config'
 import SmartLink from '@/components/SmartLink'
 /**
  * Logo
- * 实际值支持文字
+ * 支持透明图片和站点标题
  * @param {*} props
  * @returns
  */
 const Logo = props => {
   const { siteInfo } = props
+  const logo = siteConfig('SITE_LOGO')
+  const title = siteInfo?.title || siteConfig('TITLE')
   return (
-    <SmartLink href='/' passHref legacyBehavior>
-      <div className='flex flex-col justify-center items-center cursor-pointer space-y-3'>
-        <div className='font-bold text-lg p-1.5 rounded dark:border-white dark:text-white menu-link transform duration-200'>
-          {' '}
-          {siteInfo?.title || siteConfig('TITLE')}
-        </div>
-      </div>
+    <SmartLink
+      href='/'
+      aria-label={title}
+      className='flex items-center gap-2 cursor-pointer'>
+      {logo && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={logo}
+          alt=''
+          width={44}
+          height={44}
+          className='h-11 w-11 shrink-0 object-contain'
+        />
+      )}
+      <span className='font-bold text-lg p-1.5 rounded dark:border-white dark:text-white menu-link transform duration-200'>
+        {title}
+      </span>
     </SmartLink>
   )
 }
